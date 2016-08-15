@@ -1,0 +1,15 @@
+{
+  "name": "formula_one_seed",
+  "version": "1.0.0",
+  "description": "Seed 20 years of F1 data into local mongo",
+  "main": "db_seed.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Northcoders",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.0.1",
+    "mongoose": "^4.5.8"
+  }
+}

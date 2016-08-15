@@ -1,0 +1,11 @@
+{
+  "name": "wk06sprint_02_f1",
+  "version": "1.0.0",
+  "description": "Northcoders Formula One Sprint",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha spec/"
+  },
+  "author": "Northcoders",
+  "license": "ISC"
+}

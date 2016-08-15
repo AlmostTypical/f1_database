@@ -1,0 +1,23 @@
+module.exports = {
+  '1995': require('./1995.json').MRData.RaceTable.Races,
+  '1996': require('./1996.json').MRData.RaceTable.Races,
+  '1997': require('./1997.json').MRData.RaceTable.Races,
+  '1998': require('./1998.json').MRData.RaceTable.Races,
+  '1999': require('./1999.json').MRData.RaceTable.Races,
+  '2000': require('./2000.json').MRData.RaceTable.Races,
+  '2001': require('./2001.json').MRData.RaceTable.Races,
+  '2002': require('./2002.json').MRData.RaceTable.Races,
+  '2003': require('./2003.json').MRData.RaceTable.Races,
+  '2004': require('./2004.json').MRData.RaceTable.Races,
+  '2005': require('./2005.json').MRData.RaceTable.Races,
+  '2006': require('./2006.json').MRData.RaceTable.Races,
+  '2007': require('./2007.json').MRData.RaceTable.Races,
+  '2008': require('./2008.json').MRData.RaceTable.Races,
+  '2009': require('./2009.json').MRData.RaceTable.Races,
+  '2010': require('./2010.json').MRData.RaceTable.Races,
+  '2011': require('./2011.json').MRData.RaceTable.Races,
+  '2012': require('./2012.json').MRData.RaceTable.Races,
+  '2013': require('./2013.json').MRData.RaceTable.Races,
+  '2014': require('./2014.json').MRData.RaceTable.Races,
+  '2015': require('./2015.json').MRData.RaceTable.Races
+};
