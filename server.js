@@ -20,7 +20,13 @@ app.get('/api', function (req, res) {
 
 app.get('/api/seasons', function (req, res) {
   var seasons = Seasons.find({}, function (err, seasons) {
-    console.log(seasons);
     res.status(200).json(seasons)
   })
 });
+
+app.get('/api/seasons/:season_year', function (req, res){
+  var season_year = Seasons.findOne({season: req.params.season_year}, function (err, season){
+    res.status(200).json({season : season})
+  })
+});
+
