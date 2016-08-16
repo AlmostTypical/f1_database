@@ -21,5 +21,15 @@ router.get('/seasons/:season_year', function (req, res){
   });
 });
 
+router.get('/seasons/:season_year/events', function (req, res) {
+  var year = req.params.season_year;
+  seasonsController.getSeasonsEvents(year, function (err, data) {
+    if (err) {
+      return res.status(500).json(err);
+    }
+    res.status(200).json(data)
+  })
+});
+
 
 module.exports = router;
