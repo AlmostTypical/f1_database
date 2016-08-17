@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var seasonsController = require('../controllers/seasons');
-var Seasons = require('../models/seasons.js');
+var driversController = require('../controllers/drivers');
 
 router.get('/seasons', function (req, res) {
   seasonsController.getSeasons({}, function (err, data) {
@@ -29,6 +29,24 @@ router.get('/seasons/:season_year/events', function (req, res) {
     }
     res.status(200).json(data)
   })
+});
+
+router.get('/drivers', function (req, res) {
+  driversController.getDrivers({}, function (err, data) {
+    if (err) {
+      return res.status(500).json(err);
+    }
+    res.status(200).json(data);
+  })
+});
+
+router.get('/drivers/:driver_id', function (req, res){
+  driversController.getDrivers({driverId: req.params.driver_id}, function (err, data) {
+    if (err) {
+      return res.status(500).json(err);
+    }
+    res.status(200).json(data)
+  });
 });
 
 

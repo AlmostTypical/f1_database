@@ -4,7 +4,8 @@
   "description": "Northcoders Formula One Sprint",
   "main": "app.js",
   "scripts": {
-    "test": "mocha spec/"
+    "test": "mocha spec/",
+    "start": "nodemon server.js localhost 3000"
   },
   "author": "Northcoders",
   "license": "ISC",
