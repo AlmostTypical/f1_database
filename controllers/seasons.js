@@ -25,29 +25,29 @@ function getSeasonsEvents(year, finalCb) {
   };
   async.waterfall([
     function (callback) {
-    getSeasons({season: year}, function (err, seasons) {
-      var season = seasons[0];
+    getSeasons({season: year}, function (err, seasons) { // find season by season year
+      var season = seasons[0]; // select season from array of single season
       data.link = season.url;
-      callback(null, season._id)
+      callback(null, season._id); // pass down season id to callback
     })
     },
     function (seasonId, callback) {
-      Events.find({season_id: seasonId}, function (err, events) {
+      Events.find({season_id: seasonId}, function (err, events) { // find all events by season id
         callback(null, events)
       });
     },
     function (events, callback) {
-      async.eachSeries(events, function (event, eachCallback) {
-        event = event.toObject();
-        Circuits.findById(event.circuit_id, function (err, circuit) {
-          data[event.round] = {
+      async.eachSeries(events, function (event, eachCallback) { // async version of eachOf, will go through array
+        event = event.toObject(); // workaround for JSON being a dick
+        Circuits.findById(event.circuit_id, function (err, circuit) {  // find circuits by their id
+          data[event.round] = {  // create object entry for each event by their round number
             time: event.date_time,
             circuit: circuit
           };
           eachCallback()
         });
       }, function (err) {
-        callback(null, 'FINISHED')
+        callback(null, 'FINISHED'); // only called when there is an error
       })
     }
   ], function (err, result) {
