@@ -34,9 +34,9 @@ router.get('/seasons/:season_year/events', function (req, res) {
 });
 
 router.get('/seasons/:season_year/events/:event_number', function (req, res) {
-  var event = req.params.event_number;
+  var round = req.params.event_number;
   var year = req.params.season_year;
-  seasonsController.getSeasonsEvent(year, event, function (err, data) {
+  seasonsController.getSeasonsEvent(year, round, function (err, data) {
     if (err) {
       return res.status(500).json(err);
     }

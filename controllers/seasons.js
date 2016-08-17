@@ -57,15 +57,38 @@ function getSeasonsEvents(year, finalCb) {
 
 }
 
-function getSeasonsEvent (year, event, callback) {
-  var events = getSeasonsEvents(year, function(err, data){
-    return data;
-  });
-  console.log('**********************************');
-  console.log(events);
-  var oneEvent = events[event];
-  if (err) {
-    return callback(err);
-  }
-  callback(null, oneEvent)
-  }
+function getSeasonsEvent (year, round, finalCB) {
+  // Create data variable object
+  var data = {};
+  async.waterfall([
+  // function 1: use getSeasons to acquire that year's season
+  function (callback) {
+  getSeasons({season: year}, function (err, seasons) { // a query is an obj so inside {}v//finds season by season year
+    var season = seasons[0]; // select season from array of single season
+    data.link = season.url; // adds link to season to data
+    callback(null, season._id); // passes down season id to callback
+  })
+  },
+  // function 2: return an event based on the round number and pushes relevant data to data
+  function (seasonId, callback) {
+    Events.find({season_id: seasonId, round: round}, function (err, oneEvent) { // find all events by season id
+      oneEvent = oneEvent[0]; // isolate our single event
+      data.round = oneEvent.round; // add round to data
+      data.date = oneEvent.date_time; // add date/time to data
+      callback(null, oneEvent); // pass event data to next function
+    });
+  }, // function 3: finds circuit info and pushes relevant info to the data object
+    function (oneEvent, callback) {
+    Circuits.findById({_id: oneEvent.circuit_id}, function (err, circuit) { // finds circuit based on id from event
+      data.wiki = circuit.wiki; // pushes wiki info to data
+      data.circuit = circuit.name; // pushes circuit name to data
+      callback(null, data); // passes data down to final function
+    })
+    }
+  // final function: call finalCB and pass data through to api
+  ], function (err, result) {
+    finalCB(err, data); // passes final data to api
+  })
+}
+
+
