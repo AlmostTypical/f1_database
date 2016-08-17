@@ -33,6 +33,18 @@ router.get('/seasons/:season_year/events', function (req, res) {
   })
 });
 
+router.get('/seasons/:season_year/events/:event_number', function (req, res) {
+  var event = req.params.event_number;
+  var year = req.params.season_year;
+  seasonsController.getSeasonsEvent(year, event, function (err, data) {
+    if (err) {
+      return res.status(500).json(err);
+    }
+    res.status(200).json(data)
+  })
+});
+
+
 router.get('/drivers', function (req, res) {
   driversController.getDrivers({}, function (err, data) {
     if (err) {

@@ -6,12 +6,13 @@ var express = require('express');
 
 module.exports = {
   getSeasons: getSeasons,
-  getSeasonsEvents: getSeasonsEvents
+  getSeasonsEvents: getSeasonsEvents,
+  getSeasonsEvent: getSeasonsEvent
 };
 
 function getSeasons(query, callback) {
   console.log('Called getSeasons controller');
-  Seasons.find(query, function (err, seasons) {
+  Seasons.find(query, function (err, seasons) { // capital S tells us this a model //.find is from Mongoose
     if (err) {
       return callback(err);
     }
@@ -25,10 +26,10 @@ function getSeasonsEvents(year, finalCb) {
   };
   async.waterfall([
     function (callback) {
-    getSeasons({season: year}, function (err, seasons) { // find season by season year
+    getSeasons({season: year}, function (err, seasons) { // a query is an obj so inside {}v//finds season by season year
       var season = seasons[0]; // select season from array of single season
       data.link = season.url;
-      callback(null, season._id); // pass down season id to callback
+      callback(null, season._id); // passes down season id to callback
     })
     },
     function (seasonId, callback) {
@@ -39,7 +40,7 @@ function getSeasonsEvents(year, finalCb) {
     function (events, callback) {
       async.eachSeries(events, function (event, eachCallback) { // async version of eachOf, will go through array
         event = event.toObject(); // workaround for JSON being a dick
-        Circuits.findById(event.circuit_id, function (err, circuit) {  // find circuits by their id
+        Circuits.findById(event.circuit_id, function (err, circuit) {  // .findById is from Mongoose //  find circuits by their id
           data[event.round] = {  // create object entry for each event by their round number
             time: event.date_time,
             circuit: circuit
@@ -55,3 +56,16 @@ function getSeasonsEvents(year, finalCb) {
   });
 
 }
+
+function getSeasonsEvent (year, event, callback) {
+  var events = getSeasonsEvents(year, function(err, data){
+    return data;
+  });
+  console.log('**********************************');
+  console.log(events);
+  var oneEvent = events[event];
+  if (err) {
+    return callback(err);
+  }
+  callback(null, oneEvent)
+  }
