@@ -1,13 +1,17 @@
 var Seasons = require('../models/seasons');
 var Events = require('../models/events');
 var Circuits = require('../models/circuits');
+var Results = require('../models/results');
+var Drivers = require('../models/drivers');
+var Constructors = require('../models/constructors');
 var async = require('async');
 var express = require('express');
 
 module.exports = {
   getSeasons: getSeasons,
   getSeasonsEvents: getSeasonsEvents,
-  getSeasonsEvent: getSeasonsEvent
+  getSeasonsEvent: getSeasonsEvent,
+  getSeasonsEventResults: getSeasonsEventResults
 };
 
 function getSeasons(query, callback) {
@@ -73,6 +77,7 @@ function getSeasonsEvent (year, round, finalCB) {
   function (seasonId, callback) {
     Events.find({season_id: seasonId, round: round}, function (err, oneEvent) { // find all events by season id
       oneEvent = oneEvent[0]; // isolate our single event
+      data.event_id = oneEvent._id;
       data.round = oneEvent.round; // add round to data
       data.date = oneEvent.date_time; // add date/time to data
       callback(null, oneEvent); // pass event data to next function
@@ -88,6 +93,50 @@ function getSeasonsEvent (year, round, finalCB) {
   // final function: call finalCB and pass data through to api
   ], function (err, result) {
     finalCB(err, data); // passes final data to api
+  })
+}
+
+function getSeasonsEventResults (year, round, finalCB) {
+  // Create data variable object
+  async.waterfall([
+    // function 1: use getSeasonsEvent to acquire the one event and it's details
+    function (cb) {
+      getSeasonsEvent(year, round, function (err, oneEvent) { // use our previous function to save time!
+        cb(null, oneEvent); // passes on all that single event data onto the next function
+      });
+    },
+    // function 2: use our event ID to select the results for that single event
+    function (oneEvent, cb) {
+      Results.find({event_id: oneEvent.event_id.toString()}, function (err, results) { // use event ID to filter results
+        cb(null, results); // pass these results onto the next function
+      })
+    },
+    // function 3: create the final object by mapping the results and including driver and constructor data
+    function (results, cb) {
+      async.map(results, function (result, cb) { // Similar to a map function, but with a callback to make sure it has finished each part before moving on
+        async.parallel({ // parallel will run these two functions and won't pass results until they are done
+            driver: function (cb) {
+              Drivers.findById(result.driver_id).exec(cb); // gather driver data from Drivers
+            },
+            constructor: function (cb) {
+              Constructors.findById(result.constructor_id).exec(cb); // gather constructor data from Constructors
+            }
+        },
+          function (err, asyncResults) { // results from the parallel
+            result = result.toObject(); // making sure the results are objects
+            delete result.constructor_id; // get rid of the constructor ID from the final object (we don't need it)
+            delete result.driver_id; // same again with the driver ID
+            result.driver = asyncResults.driver; // sets the property of driver in each result as an object containing all the driver details
+            result.constructor = asyncResults.constructor; // same again with the constructors
+            cb(err, result); // pass the results out of the mapping function
+          });
+
+      }, function (err, results) { // pass the results of the map onto the final function
+        cb(null, results)
+      })
+    }
+  ], function (err, results) {
+    finalCB(err, results); // passes final data to api
   })
 }
 
