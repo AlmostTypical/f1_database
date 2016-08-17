@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 var seasonsController = require('../controllers/seasons');
 var driversController = require('../controllers/drivers');
-var constructorController = require('../controllers/constructors');
+var constructorsController = require('../controllers/constructors');
+var circuitsController = require('../controllers/circuits');
 
 router.get('/seasons', function (req, res) {
   seasonsController.getSeasons({}, function (err, data) {
@@ -50,8 +51,8 @@ router.get('/drivers/:driver_id', function (req, res){
   });
 });
 
-router.get('/constructor', function (req, res) {
-  constructorController.getConstructors({}, function (err, data) {
+router.get('/constructors', function (req, res) {
+  constructorsController.getConstructors({}, function (err, data) {
     if (err) {
       return res.status(500).json(err);
     }
@@ -59,8 +60,8 @@ router.get('/constructor', function (req, res) {
   })
 });
 
-router.get('/constructor/:constructor_id', function (req, res){
-  constructorController.getConstructors({constructorId: req.params.constructor_id}, function (err, data) {
+router.get('/constructors/:constructor_id', function (req, res){
+  constructorsController.getConstructors({constructorId: req.params.constructor_id}, function (err, data) {
     if (err) {
       return res.status(500).json(err);
     }
@@ -68,5 +69,22 @@ router.get('/constructor/:constructor_id', function (req, res){
   });
 });
 
+router.get('/circuits', function (req, res) {
+  circuitsController.getCircuits({}, function (err, data) {
+    if (err) {
+      return res.status(500).json(err);
+    }
+    res.status(200).json(data);
+  })
+});
+
+router.get('/circuits/:circuit_id', function (req, res){
+  circuitsController.getCircuits({_id: req.params.circuit_id}, function (err, data) {
+    if (err) {
+      return res.status(500).json(err);
+    }
+    res.status(200).json(data)
+  });
+});
 
 module.exports = router;
