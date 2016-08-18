@@ -6,19 +6,63 @@
     <% include ../layout/nav.ejs %>
     <div class="jumbotron">
         <h1>Events</h1>
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+            Toggle dates
+        </button>
     </div>
-    <div class="row" >
 
+    <div class="row" >
         <div class="col-xs-12">
             <ul>
                 <% allEvents.forEach( function (event){ %>
                 <li>
-                    <%= event.season %> round <%= event.round %> - <%= event.date_time %> - <%= event.circuit.name %>
+                    <%= event.season %> round <%= event.round %> - <%= moment(+event.date_time).format('MMMM Do YYYY, h:mm a') %> - <%= event.circuit.name %>
                 </li>
-                <% })   %>
+                <% }) %>
             </ul>
         </div>
     </div>
-</div>
 
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Toggle dates</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">From</label>
+                            <input type="date" class="form-control" id="from-input" placeholder="Example input">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Until</label>
+                            <input type="date" class="form-control" id="until-input" placeholder="Another input">
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button class="btn btn-success" id="submit-date-toggle">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<% include ../layout/scripts.ejs %>
+<script>
+    $('#submit-date-toggle').click(function (e) {
+        e.preventDefault();
+        var from = $('#from-input').val();
+        var until = $('#until-input').val();
+        console.log(from)
+        console.log(until)
+        window.location.href = 'http://localhost:3000/events?from=' + from + '&until=' + until
+    })
+</script>
 </body>

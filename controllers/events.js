@@ -18,8 +18,9 @@ function getAllEvents (from, until, finalCallback) {
   async.waterfall([
     function (callback) {
       Events.find(query, function (err, events) {
-        // now pass all the events down our waterfall
-        callback(null, events);
+        console.log(query);
+        console.log(events);
+        callback(null, events); // Now pass all the events down our waterfall.
       })
     },
     function (events, callback) {

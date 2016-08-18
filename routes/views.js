@@ -1,3 +1,4 @@
+var moment = require('moment');
 var express = require('express');
 var router = express.Router();
 // extract out our logic that controls each route into our controllers
@@ -6,7 +7,6 @@ var eventsController = require('../controllers/events');
 
 
 router.get('/events', function (req, res) {
-  // we call the controller to get all eventss
   var from, until;
   if (req.query.from && req.query.until) {
     var fromDate = new Date(req.query.from).getTime();
@@ -14,15 +14,15 @@ router.get('/events', function (req, res) {
     from = fromDate ? fromDate : null;
     until = untilDate ? untilDate : null;
   }
-  eventsController.getAllEvents(from,until, function (error, data) {
+  eventsController.getAllEvents(from, until, function (error, data) {
     if (error) {
-      return res.status(500).json(error);
+      return res.status(500).send("Something has gone horribly wrong. Someone probably crammed a swiss roll into the hard drive.");
     }
     var ejsData = {
       title: 'Events',
-      allEvents: data
+      allEvents: data,
+      moment: moment
     };
-
     res.status(200).render('pages/events', ejsData);
   })
 });
