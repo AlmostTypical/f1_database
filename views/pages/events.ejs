@@ -1,0 +1,24 @@
+<% include ../layout/head.ejs%>
+
+<body>
+
+<div class="container">
+    <% include ../layout/nav.ejs %>
+    <div class="jumbotron">
+        <h1>Events</h1>
+    </div>
+    <div class="row" >
+
+        <div class="col-xs-12">
+            <ul>
+                <% allEvents.forEach( function (event){ %>
+                <li>
+                    <%= event.season %> round <%= event.round %> - <%= event.date_time %> - <%= event.circuit.name %>
+                </li>
+                <% })   %>
+            </ul>
+        </div>
+    </div>
+</div>
+
+</body>
