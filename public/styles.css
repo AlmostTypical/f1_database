@@ -1,0 +1,31 @@
+@font-face {
+    font-family: Bebas;
+    src: url('./assets/BebasNeue.otf')
+}
+
+.jumbotron {
+
+    background-image: linear-gradient(
+            rgba(0, 0, 0, 0.45),
+            rgba(0, 0, 0, 0.45)
+            ),
+            url("./assets/checkered-flag.jpg");
+    background-size: 100%;
+    color: whitesmoke;
+    text-shadow: 3px 3px 0px #2c2e38, 5px 5px 0px #5c5f72;
+    font: 80px 'Bebas';
+    letter-spacing: 10px;
+    box-shadow: 3px 3px 5px 6px #ccc;
+}
+
+.container {
+
+}
+
+.header {
+    padding-top: 10px;
+}
+
+li {
+    padding: 3px;
+}

@@ -1,19 +1,19 @@
 <% include ../layout/head.ejs%>
 
 <body>
-    <div class="container">
-        <% include ../layout/nav.ejs %>
-        <div class="jumbotron">
-            <h1> what ever you want </h1>
 
-        </div>
+<div class="container">
+    <% include ../layout/nav.ejs %>
+    <div class="jumbotron">
+        <h1>Seasons</h1>
+    </div>
     <ul>
         <% allSeasons.forEach(function (individualSeason) { %>
-            <li>
-                <%= individualSeason.season %> - <a href="<%= individualSeason.url %>" > View on Wiki </a>
-            </li>
+        <li>
+            <%= individualSeason.season %> - <a href="<%= individualSeason.url %>" > View on Wiki </a>
+        </li>
         <%})%>
     </ul>
-    </div>
+</div>
 
 </body>

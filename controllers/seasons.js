@@ -97,7 +97,6 @@ function getSeasonsEvent (year, round, finalCB) {
 }
 
 function getSeasonsEventResults (year, round, finalCB) {
-  // Create data variable object
   async.waterfall([
     // function 1: use getSeasonsEvent to acquire the one event and it's details
     function (cb) {
