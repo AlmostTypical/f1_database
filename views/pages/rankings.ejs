@@ -1,25 +1,32 @@
 <% include ../layout/head.ejs%>
 
 <body>
-
-<div class="container">
-    <% include ../layout/nav.ejs %>
-    <div class="jumbotron">
-        <h1>Driver Rankings</h1>
+<div class="back">
+    <div class="container">
+        <% include ../layout/nav.ejs %>
+        <div class="jumbotron">
+            <h1>Driver Rankings</h1>
+        </div>
+        <div class="racers">
+            <% allRankings.forEach(function (r) { %>
+            <div class="card">
+                <img class="card-img-top" src="./assets/200x200.png" alt="Card image cap">
+                <div class="card-block">
+                    <h4 class="card-title"><a class="cardlink" target="_blank" href="<%= r.url%>"> <%= r.name %> </a></h4>
+                    <p class="card-text">
+                        Lifetime Points: <strong><%= r.totalPoints %></strong>
+                        <br>
+                        First Place Finishes: <strong><%= r.totalPoles %></strong>
+                        <br>
+                        Podium Finishes: <strong><%= r.totalTopThree %></strong>
+                    </p>
+                </div>
+            </div>
+            <%})%>
+        </div>
     </div>
-    <ul class="rank">
-        <% allRankings.forEach(function (r) { %>
-        <li>
-            <%= r.name %>
-            <br>
-            - Total Points Over Lifetime: <strong><%= r.totalPoints %></strong>
-            <br>
-            - Total First Place Finishes: <strong><%= r.totalPoles %></strong>
-            <br>
-            - Total Podium Finishes: <strong><%= r.totalTopThree %></strong>
-        </li>
-        <%})%>
-    </ul>
 </div>
 
 </body>
+
+

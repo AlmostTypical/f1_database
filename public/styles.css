@@ -3,6 +3,14 @@
     src: url('./assets/BebasNeue.otf')
 }
 
+.back {
+    background-image: url("background.png");
+}
+
+.container {
+    background: rgba(100, 100, 100, 0.05)
+}
+
 .jumbotron {
 
     background-image: linear-gradient(
@@ -12,7 +20,7 @@
             url("./assets/checkered-flag.jpg");
     background-size: 100%;
     color: whitesmoke;
-    text-shadow: 3px 3px 0px #2c2e38, 5px 5px 0px #5c5f72;
+    text-shadow: 3px 3px 0px #d31411, 5px 5px 0px #400905;
     font: 80px 'Bebas';
     letter-spacing: 10px;
     box-shadow: 3px 3px 5px 6px #ccc;
@@ -26,10 +34,55 @@
     padding-top: 10px;
 }
 
+.headerimg {
+    height: 75px;
+    width: 150px;
+    margin-bottom: 10px;
+}
+
 li {
     padding: 3px;
 }
 
-.rank {
-    list-style-type: decimal;
+.racers {
+    display: inline-flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card-text {
+    margin-left: 3px;
+}
+
+.card {
+    padding: 10px;
+    margin-left: 30px;
+    margin-bottom: 30px;
+    border: solid black 1px;
+    border-radius: 3px;
+    box-shadow: 3px 3px 0 #d31411, 5px 5px 0 #400905;
+    background-color: black;
+    color: whitesmoke;
+    font-family: Bebas, sans-serif;
+    font-size: 17px;
+
+}
+
+.cardlink {
+    color: whitesmoke;
+}
+
+.card-title {
+    text-align: center;
+    font-family: Bebas, sans-serif;
+    font-size: 22px;
+}
+
+.cardlink:hover {
+    color: #d31411;
+}
+
+.cardlink:visited {
+    color: #d31411;
 }

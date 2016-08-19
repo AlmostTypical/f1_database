@@ -19,6 +19,7 @@ function getDriverRankings (query, finalCB) {
           newDriver.name = driver.givenName + ' ' + driver.familyName;
           newDriver.dateOfBirth = driver.dateOfBirth;
           newDriver.nationality = driver.nationality;
+          newDriver.url = driver.url;
           newDriver.totalPoints = 0;
           newDriver.totalPoles = 0;
           newDriver.totalTopThree = 0;
