@@ -29,3 +29,7 @@
 li {
     padding: 3px;
 }
+
+.rank {
+    list-style-type: decimal;
+}

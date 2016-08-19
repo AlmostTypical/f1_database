@@ -48,7 +48,7 @@ router.get('/seasons', function (req, res) {
 
 router.get('/rankings', function (req, res) {
   driversController.getDriverRankings({}, function (err, data) {
-    if (error) {
+    if (err) {
       return res.status(500).send('We done fucked up.')
     }
     var ejsData = {

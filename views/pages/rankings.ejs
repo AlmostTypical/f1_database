@@ -1,0 +1,22 @@
+<% include ../layout/head.ejs%>
+
+<body>
+
+<div class="container">
+    <% include ../layout/nav.ejs %>
+    <div class="jumbotron">
+        <h1>Driver Rankings</h1>
+    </div>
+    <ul class="rank">
+        <% allRankings.forEach(function (r) { %>
+        <li>
+            <%= r.name %>
+            - Total Points Over Lifetime: <%= r.totalPoints %>
+            - Total Poles: <%= r.totalPoles %>
+            - Total Podium Finishes: <%= r.totalTopThree %>
+        </li>
+        <%})%>
+    </ul>
+</div>
+
+</body>
