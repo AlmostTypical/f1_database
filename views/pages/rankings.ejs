@@ -11,9 +11,12 @@
         <% allRankings.forEach(function (r) { %>
         <li>
             <%= r.name %>
-            - Total Points Over Lifetime: <%= r.totalPoints %>
-            - Total Poles: <%= r.totalPoles %>
-            - Total Podium Finishes: <%= r.totalTopThree %>
+            <br>
+            - Total Points Over Lifetime: <strong><%= r.totalPoints %></strong>
+            <br>
+            - Total First Place Finishes: <strong><%= r.totalPoles %></strong>
+            <br>
+            - Total Podium Finishes: <strong><%= r.totalTopThree %></strong>
         </li>
         <%})%>
     </ul>
