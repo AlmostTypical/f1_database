@@ -8,42 +8,40 @@ module.exports = {
 };
 
 function getAllEvents (from, until, finalCallback) {
-  console.log(arguments);
   var query = {};
-  if (from && until) {
-    query.date_time = {$gt: from, $lt: until}; // from and until are definitely numbers here inside an object
+  if (from && until) { // If a query has been passed over from the route...
+    query.date_time = {$gt: from, $lt: until}; // ...organise it into a format that Mongoose can understand.
   }
   async.waterfall([
-    function (callback) { // query is being passed down correctly
-      console.log(query); // query has times in JS format, should be returning everything from 1998 to 2004 with above params.
-      Events.find(query, function (err, events) { // query === { date_time: { '$gt': 883612800000, '$lt': 1072915200000 } }
-        console.log(events); // events unpopulated for some reason when query is present, fine with no query
-        callback(null, events); // Now pass all the events down our waterfall, in this case NOTHING :(
+    // First function: take our query data and find what we need from our events database.
+    function (callback) {
+      Events.find(query, function (err, events) { // Find the events that match our query.
+        callback(null, events); // Pass our events along to the next function.
       })
     },
+    // Second function: get what we need from our events and organise them into an array of objects.
     function (events, callback) {
       var season_id = '';
       var year = '';
-      var returnEvents = [];
-      var newEvent;
-      async.eachSeries(events, function (event, eventCallback) {
+      var returnEvents = []; // we'll use this as our final array for passing on to the next function.
+      var newEvent; // this will be our temporary object that will get reset after each push.
+      async.eachSeries(events, function (event, eventCallback) { // Similar to a forEach function but in async
         event = event.toObject();
-        if (event.season_id === season_id) {
-          newEvent = {
+        if (event.season_id === season_id) { // if this event matches the season, then...
+          newEvent = { // stick it all in our temporary variable which will be added to until we hit the end of the season
             date_time: event.date_time,
             season: year,
             round: event.round,
             circuit_id: event.circuit_id
           };
-          return eventCallback();
+          return eventCallback(); // Use our callback to tell the async each to move onto the next element
         }
-        Seasons.findById(event.season_id, function (error, season) {
-          // otherwise do a db fetch, add the year and then reset the variables
+        Seasons.findById(event.season_id, function (error, season) { // If our season Id doesn't match, we create a new season and move on
           if (error) {
             return callback(error);
           }
           season = season.toObject();
-          season_id = season._id;
+          season_id = season._id; // This is where all the variables are reset ready for the new season.
           year = season.season;
           newEvent = {
             date_time: event.date_time,
@@ -51,39 +49,35 @@ function getAllEvents (from, until, finalCallback) {
             round: event.round,
             circuit_id: event.circuit_id
           };
-          returnEvents.push(newEvent);
+          returnEvents.push(newEvent); // Push whatever we have made in newEvent into returnEvents ready to be passed on.
           eventCallback();
         });
       }, function () {
-        // callback with all our modified events
-        callback(null, returnEvents);
+        callback(null, returnEvents); // Callback with our finished events array and pass on to the next function
       });
     },
+    // Third function: grab our circuit information
     function (events, callback) {
-      // now we just need the circuit for that event
-      // we should also create a 'map' for our circuits so we don't do db look ups and the circuits are usually used more than once
-      var circuitsMap = {};
-
-      // again lets us a eachSeries
-      async.eachSeries(events, function (event, eventCallback) {
-        if (circuitsMap[event.circuit_id]){
-          event.circuit = circuitsMap[event.circuit_id];
+      var circuitsMap = {}; // By mapping into this, we can avoid duplicate circuits or events.
+      async.eachSeries(events, function (event, eventCallback) { // Another eachSeries like above to work through all our circuits.
+        if (circuitsMap[event.circuit_id]){ // If we've found our circuit for this year event...
+          event.circuit = circuitsMap[event.circuit_id]; // ... then add it to the map.
           return eventCallback();
         }
-        // otherwise do a db fetch, add the year and add it to the map
-        Circuits.findById(event.circuit_id, function (error, circuit) {
+        Circuits.findById(event.circuit_id, function (error, circuit) { // Otherwise, we find what we need in the db
           if (error) {
             return callback(error);
           }
           circuit = circuit.toObject();
-          event.circuit = circuit;
+          event.circuit = circuit;                  // Formatting the data into what we need to pass on.
           circuitsMap[event.circuit_id] = circuit;
           eventCallback();
         });
       }, function () {
-        callback(null, events);
+        callback(null, events); // Final callback of this function to pass our data onto the final function.
       })
     }
+    // Now we pass on our data out into the views route to be dealt with there.
   ], function (error, events) {
     finalCallback(null, events);
   });
