@@ -4,6 +4,7 @@ var router = express.Router();
 // extract out our logic that controls each route into our controllers
 var seasonsController = require('../controllers/seasons');
 var eventsController = require('../controllers/events');
+var driversController = require('../controllers/drivers');
 
 
 router.get('/events', function (req, res) {
@@ -42,6 +43,19 @@ router.get('/seasons', function (req, res) {
     };
 
     res.status(200).render('pages/seasons', ejsData);
+  })
+});
+
+router.get('/rankings', function (req, res) {
+  driversController.getDriverRankings({}, function (err, data) {
+    if (error) {
+      return res.status(500).send('We done fucked up.')
+    }
+    var ejsData = {
+      title: 'Rankings',
+      allRankings: data
+    };
+    res.status(200).render('pages/rankings', ejsData)
   })
 });
 
