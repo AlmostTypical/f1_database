@@ -8,31 +8,25 @@ module.exports = {
 };
 
 function getAllEvents (from, until, finalCallback) {
-  // go and find all the events where the date_time
+  console.log(arguments);
   var query = {};
   if (from && until) {
-    // get tome stamps from params
-    // check they are valid
-    query.date_time = {$gt: from, $lt: until};
+    query.date_time = {$gt: from, $lt: until}; // from and until are definitely numbers here inside an object
   }
   async.waterfall([
-    function (callback) {
-      Events.find(query, function (err, events) {
-        console.log(query);
-        console.log(events);
-        callback(null, events); // Now pass all the events down our waterfall.
+    function (callback) { // query is being passed down correctly
+      console.log(query); // query has times in JS format, should be returning everything from 1998 to 2004 with above params.
+      Events.find(query, function (err, events) { // query === { date_time: { '$gt': 883612800000, '$lt': 1072915200000 } }
+        console.log(events); // events unpopulated for some reason when query is present, fine with no query
+        callback(null, events); // Now pass all the events down our waterfall, in this case NOTHING :(
       })
     },
     function (events, callback) {
-      // get the year for the events and modify the doc
-      // hold that season id in memory as we have many rounds to a season and do not need the db every time
       var season_id = '';
       var year = '';
       var returnEvents = [];
       var newEvent;
-      // async eachSeries on our events
       async.eachSeries(events, function (event, eventCallback) {
-        // check the id is the id if so add the year,
         event = event.toObject();
         if (event.season_id === season_id) {
           newEvent = {

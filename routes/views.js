@@ -13,6 +13,7 @@ router.get('/events', function (req, res) {
     var untilDate = new Date(req.query.until).getTime();
     from = fromDate ? fromDate : null;
     until = untilDate ? untilDate : null;
+    console.log(typeof fromDate)
   }
   eventsController.getAllEvents(from, until, function (error, data) {
     if (error) {
