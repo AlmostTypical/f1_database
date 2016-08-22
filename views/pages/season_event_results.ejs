@@ -1,0 +1,37 @@
+<% include ../layout/head.ejs%>
+
+<body>
+<div class="back">
+    <div class="container">
+        <% include ../layout/nav.ejs %>
+        <div class="jumbotron">
+            <h1><%= year %>: Round <%= round %></h1>
+        </div>
+        <div class="racers">
+            <% allResults.forEach(function (r) { %>
+            <div class="card">
+                <img class="card-img-top" src="/assets/200x200.png" alt="Card image cap">
+                <div class="card-block">
+                    <h4>
+                        <%= r.position %>: <%= r.driver.givenName%> <%= r.driver.familyName%>
+                        <br>
+                        <i><%= r.constructor.name%></i>
+                    </h4>
+                    <br>
+                    <p>
+                        Points: <%= r.points %>
+                        <br>
+                        Grid: <%= r.grid %>
+                        <br>
+                        Time: <%= (r.time !== 'N/A') ? moment(+r.time).format('hh:mm:ss') : 'N/A' %>  <!--todo: format time correctly-->
+                        <br>
+                        Status: <%= r.status %>
+                    </p>
+                </div>
+            </div>
+            <%})%>
+        </div>
+    </div>
+</div>
+
+</body>

@@ -85,6 +85,7 @@ function getSeasonsEvent (year, round, finalCB) {
     Events.find({season_id: seasonId, round: round}, function (err, oneEvent) { // find all events by season id
       oneEvent = oneEvent[0]; // isolate our single event
       data.event_id = oneEvent._id;
+      data.year = oneEvent.season;
       data.round = oneEvent.round; // add round to data
       data.date = oneEvent.date_time; // add date/time to data
       callback(null, oneEvent); // pass event data to next function

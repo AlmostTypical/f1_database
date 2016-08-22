@@ -58,6 +58,24 @@ router.get('/seasons/:season_year', function (req, res) {
   })
 });
 
+router.get('/seasons/:season_year/:event_number', function (req, res) {
+  var round = req.params.event_number;
+  var year = req.params.season_year;
+  seasonsController.getSeasonsEventResults(year, round, function (err, data) {
+    if (err) {
+      return res.status(500).send('We done fucked up.')
+    }
+    var ejsData = {
+      title: 'Round Results',
+      year: year,
+      round: round,
+      allResults: data,
+      moment: moment
+    };
+    res.status(200).render('pages/season_event_results', ejsData)
+  })
+});
+
 
 router.get('/rankings', function (req, res) {
   driversController.getDriverRankings({}, function (err, data) {

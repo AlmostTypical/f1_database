@@ -14,7 +14,8 @@
                 <div class="card-block">
                     <h4> Round <%= e.round %>
                         <br>
-                        <%= e.circuit.name %> </h4>
+                        <a href="/seasons/<%=allEvents.year%>/<%=e.round%>"><%= e.circuit.name %></a>
+                    </h4>
                 </div>
             </div>
             <%})%>
