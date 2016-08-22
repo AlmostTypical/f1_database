@@ -4,7 +4,7 @@
 }
 
 .back {
-    background-image: url("background.png");
+    background-image: url("./assets/background.png");
 }
 
 .container {
@@ -51,6 +51,13 @@ li {
     justify-content: center;
 }
 
+.seasons {
+    display: inline-flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .card-text {
     margin-left: 3px;
 }
@@ -71,6 +78,7 @@ li {
 
 .cardlink {
     color: whitesmoke;
+    margin-bottom: 10px
 }
 
 .card-title {
@@ -85,4 +93,9 @@ li {
 
 .cardlink:visited {
     color: #d31411;
+}
+
+.card#seasons {
+    width: 300px;
+    height: 70px;
 }

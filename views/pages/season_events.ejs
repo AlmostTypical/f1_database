@@ -1,0 +1,22 @@
+<% include ../layout/head.ejs%>
+
+<body>
+<div class="back">
+    <div class="container">
+        <% include ../layout/nav.ejs %>
+        <div class="jumbotron">
+            <h1><%= allEvents.year %></h1>
+        </div>
+        <div class="racers">
+            <% allEvents.events.forEach(function (e) { %>
+            <div class="card">
+                <div class="card-block">
+                    <h4 class="card-title"><a class="cardlink" target="_blank" href="<%= e.link%>"> <%= e.name %> </a></h4>
+                </div>
+            </div>
+            <%})%>
+        </div>
+    </div>
+</div>
+
+</body>

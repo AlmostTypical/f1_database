@@ -1,19 +1,27 @@
 <% include ../layout/head.ejs%>
 
 <body>
+<div class="back">
+    <div class="container">
+        <% include ../layout/nav.ejs %>
+        <div class="jumbotron">
+            <h1>Seasons</h1>
+        </div>
+        <div class="seasons">
+            <% allSeasons.forEach(function (s) { %>
+            <div class="card" id="seasons">
+                <div class="card-block">
+                    <h4 class="card-title">
+                        <a class="cardlink" target="_blank" href="<%= s.url%>"> <%= s.season %> </a>
+                        <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                    </h4>
 
-<div class="container">
-    <% include ../layout/nav.ejs %>
-    <div class="jumbotron">
-        <h1>Seasons</h1>
+                </div>
+            </div>
+            <%})%>
+        </div>
     </div>
-    <ul>
-        <% allSeasons.forEach(function (individualSeason) { %>
-        <li>
-            <%= individualSeason.season %> - <a href="<%= individualSeason.url %>" > View on Wiki </a>
-        </li>
-        <%})%>
-    </ul>
 </div>
 
 </body>
+

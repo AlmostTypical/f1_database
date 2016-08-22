@@ -25,6 +25,7 @@ function getSeasons(query, callback) {
 }
 
 function getSeasonsEvents(year, finalCb) {
+  console.log('Called getSeasonsEvents controller');
   var data = {
     year: year
   };
@@ -42,20 +43,26 @@ function getSeasonsEvents(year, finalCb) {
       });
     },
     function (events, callback) {
+      var allEvents = [];
+      var tempObj = {};
       async.eachSeries(events, function (event, eachCallback) { // async version of eachOf, will go through array
         event = event.toObject(); // workaround for JSON being a dick
-        Circuits.findById(event.circuit_id, function (err, circuit) {  // .findById is from Mongoose //  find circuits by their id
-          data[event.round] = {  // create object entry for each event by their round number
-            time: event.date_time,
-            circuit: circuit
-          };
+        Circuits.findById(event.circuit_id, function (err, circuit) {
+          // create object entry for each event by their round number
+          tempObj.round = event.round;
+          tempObj.time = event.date_time;
+          tempObj.circuit = circuit;
+          allEvents.push(tempObj);
+          tempObj = {};
           eachCallback()
         });
       }, function (err) {
-        callback(null, 'FINISHED'); // only called when there is an error
+        data.events = allEvents;
+        callback(null, data); // End of the each function
       })
     }
-  ], function (err, result) {
+  ], function (err, data) {
+    console.log(data)
     finalCb(err, data);
   });
 

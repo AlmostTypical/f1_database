@@ -29,22 +29,35 @@ router.get('/events', function (req, res) {
   })
 });
 
-
-
 router.get('/seasons', function (req, res) {
   // we call the controller to get all seasons
   seasonsController.getSeasons({}, function (error, data) {
     if (error) {
-      return res.status(500).json(error);
+      return res.status(500).send('Something went wrong.');
     }
     var ejsData = {
       title: 'Seasons',
       allSeasons: data
     };
-
     res.status(200).render('pages/seasons', ejsData);
   })
 });
+
+router.get('/seasons/:season_year', function (req, res) {
+  var year = req.params.season_year;
+  console.log(req.url);
+  seasonsController.getSeasonsEvents(year, function (err, data) {
+    if (err) {
+      return res.status(500).send("Well, shit.");
+    }
+    var ejsData = {
+      title: req.params.season_year,
+      allEvents: data
+    };
+    res.status(200).render('pages/season_events', ejsData)
+  })
+});
+
 
 router.get('/rankings', function (req, res) {
   driversController.getDriverRankings({}, function (err, data) {
@@ -58,5 +71,6 @@ router.get('/rankings', function (req, res) {
     res.status(200).render('pages/rankings', ejsData)
   })
 });
+
 
 module.exports = router;
