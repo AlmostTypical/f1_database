@@ -10,8 +10,11 @@
         <div class="racers">
             <% allEvents.events.forEach(function (e) { %>
             <div class="card">
+                <img class="card-img-top" src="/assets/200x200.png" alt="Card image cap">
                 <div class="card-block">
-                    <h4 class="card-title"><a class="cardlink" target="_blank" href="<%= e.link%>"> <%= e.name %> </a></h4>
+                    <h4> Round <%= e.round %>
+                        <br>
+                        <%= e.circuit.name %> </h4>
                 </div>
             </div>
             <%})%>
