@@ -62,7 +62,6 @@ function getSeasonsEvents(year, finalCb) {
       })
     }
   ], function (err, data) {
-    console.log(data)
     finalCb(err, data);
   });
 

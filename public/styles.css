@@ -26,8 +26,11 @@
     box-shadow: 3px 3px 5px 6px #ccc;
 }
 
-.container {
-
+h2 {
+    background-size: 100%;
+    color: #d31411;
+    font: 40px 'Bebas';
+    letter-spacing: 10px;
 }
 
 .header {
@@ -42,6 +45,22 @@
 
 li {
     padding: 3px;
+}
+
+table {
+    font-family: Bebas, sans-serif;
+    font-size: 20px;
+    color: #8c8c8c;
+    font-weight: 400;
+}
+
+th {
+    color: #d31411;
+    font-weight: 300;
+}
+
+.roundinfo {
+    margin-bottom: 20px;
 }
 
 .racers {
@@ -98,4 +117,8 @@ li {
 .card#seasons {
     width: 300px;
     height: 70px;
+}
+
+.results {
+
 }
