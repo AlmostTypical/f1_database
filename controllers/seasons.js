@@ -106,10 +106,14 @@ function getSeasonsEvent (year, round, finalCB) {
 
 function getSeasonsEventResults (year, round, finalCB) {
   console.log('called getSeasonsEventResults');
+  var data = {
+    circuit: ''
+  };
   async.waterfall([
     // function 1: use getSeasonsEvent to acquire the one event and it's details
     function (cb) {
       getSeasonsEvent(year, round, function (err, oneEvent) { // use our previous function to save time!
+        data.circuit = oneEvent.circuit;
         cb(null, oneEvent); // passes on all that single event data onto the next function
       });
     },
@@ -119,7 +123,7 @@ function getSeasonsEventResults (year, round, finalCB) {
         cb(null, results); // pass these results onto the next function
       })
     },
-    // function 3: create the final object by mapping the results and including driver and constructor data
+    // function 4: create the final object by mapping the results and including driver and constructor data
     function (results, cb) {
       async.map(results, function (result, cb) { // Similar to a map function, but with a callback to make sure it has finished each part before moving on
         async.parallel({ // parallel will run these two functions and won't pass results until they are done
@@ -136,6 +140,7 @@ function getSeasonsEventResults (year, round, finalCB) {
             delete result.driver_id; // same again with the driver ID
             result.driver = asyncResults.driver; // sets the property of driver in each result as an object containing all the driver details
             result.constructor = asyncResults.constructor; // same again with the constructors
+            result.circuit = data.circuit;
             cb(err, result); // pass the results out of the mapping function
           });
 

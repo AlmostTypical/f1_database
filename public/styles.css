@@ -125,6 +125,7 @@ th {
     height: 70px;
 }
 
-.results {
-
+.trackmap-large {
+    height: 700px;
+    width: 800px;
 }
