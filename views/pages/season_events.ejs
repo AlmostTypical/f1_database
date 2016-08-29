@@ -13,7 +13,7 @@
         <div class="racers">
             <% allEvents.events.forEach(function (e) { %>
             <div class="card">
-                <img class="card-img-top" src="/assets/200x200.png" alt="Card image cap">
+                <img class="card-img-top" src="/assets/circuits_large/<%= e.circuit.name.split(' ').join('_').toLowerCase() %>_large.png" alt="Card image cap">
                 <div class="card-block">
                     <h4> Round <%= e.round %>
                         <br>
