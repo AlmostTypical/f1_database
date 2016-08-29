@@ -63,6 +63,11 @@ th {
     margin-bottom: 20px;
 }
 
+.card-img-top {
+    width: 200px;
+    height: 200px;
+}
+
 .racers {
     display: inline-flex;
     flex-flow: row;

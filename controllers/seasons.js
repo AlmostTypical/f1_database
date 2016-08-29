@@ -99,11 +99,13 @@ function getSeasonsEvent (year, round, finalCB) {
     }
   // final function: call finalCB and pass data through to api
   ], function (err, result) {
+    console.log('ended')
     finalCB(err, data); // passes final data to api
   })
 }
 
 function getSeasonsEventResults (year, round, finalCB) {
+  console.log('called getSeasonsEventResults');
   async.waterfall([
     // function 1: use getSeasonsEvent to acquire the one event and it's details
     function (cb) {

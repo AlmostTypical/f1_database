@@ -16,6 +16,7 @@ function getDriverRankings (query, finalCB) {
       Drivers.find(query, function (err, drivers) {
         async.eachSeries(drivers, function (driver, driverCB) {
           newDriver.id = driver._id;
+          newDriver.codename = driver.driverId;
           newDriver.name = driver.givenName + ' ' + driver.familyName;
           newDriver.dateOfBirth = driver.dateOfBirth;
           newDriver.nationality = driver.nationality;

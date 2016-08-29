@@ -45,7 +45,6 @@ router.get('/seasons', function (req, res) {
 
 router.get('/seasons/:season_year', function (req, res) {
   var year = req.params.season_year;
-  console.log(req.url);
   seasonsController.getSeasonsEvents(year, function (err, data) {
     if (err) {
       return res.status(500).send("Well, shit.");

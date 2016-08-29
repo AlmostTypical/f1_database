@@ -10,7 +10,7 @@
         <div class="racers">
             <% allRankings.forEach(function (r) { %>
             <div class="card">
-                <img class="card-img-top" src="./assets/200x200.png" alt="Card image cap">
+                <img class="card-img-top" src="assets/drivers/<%= r.codename %>.jpg" alt="Card image cap">
                 <div class="card-block">
                     <h4 class="card-title"><a class="cardlink" target="_blank" href="<%= r.url%>"> <%= r.name %> </a></h4>
                     <p class="card-text">
