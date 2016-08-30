@@ -6,6 +6,12 @@ var seasonsController = require('../controllers/seasons');
 var eventsController = require('../controllers/events');
 var driversController = require('../controllers/drivers');
 
+router.get('/', function (req, res) {
+  var ejsData = {
+    title: 'Home'
+  };
+    res.status(200).render('pages/home', ejsData);
+});
 
 router.get('/events', function (req, res) {
   var from, until;
@@ -76,16 +82,16 @@ router.get('/seasons/:season_year/:event_number', function (req, res) {
 });
 
 
-router.get('/rankings', function (req, res) {
+router.get('/drivers', function (req, res) {
   driversController.getDriverRankings({}, function (err, data) {
     if (err) {
       return res.status(500).send('We done fucked up.')
     }
     var ejsData = {
-      title: 'Rankings',
+      title: 'Drivers',
       allRankings: data
     };
-    res.status(200).render('pages/rankings', ejsData)
+    res.status(200).render('pages/drivers', ejsData)
   })
 });
 
